@@ -1,5 +1,5 @@
 \documentclass{beamer}
-\usetheme{Warsaw}
+\usetheme{Madrid}
 
 \title{Error bounds for elliptic PDEs}
 \author{Daniel Gallo}
@@ -10,6 +10,8 @@
 \usepackage{amssymb}
 \usepackage{bm}
 \def\R{\mathbb{R}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
 
 \begin{document}
     \begin{frame}
@@ -118,7 +120,7 @@
         \end{equation*}
         Dividing by $\Delta x \Delta y$, we can approximate the double integral by $f$.
         \begin{equation*}
-            \frac{1}{\Delta x \Delta y} (r_7 \Delta y + r_{24} \Delta x - r_6 \Delta y - r_{23}\Delta x) = v_8
+            \frac{1}{\Delta x \Delta y} (r_7 \Delta y + r_{24} \Delta x - r_6 \Delta y - r_{23}\Delta x) = f_8
         \end{equation*}
         \begin{figure}
             \includegraphics[scale=0.24]{cell.png}
@@ -143,5 +145,31 @@
                 \vdots
             \end{bmatrix}
         \end{equation*}
+    \end{frame}
+
+    \begin{frame}{The numerical method: interpolation}
+        \begin{columns}
+            \column{0.6\textwidth}
+                \begin{itemize}
+                    \item Temperature $v$ at $P$
+                    \begin{itemize}
+                        \item B. inter. between $v_7$, $v_8$, $v_{13}$ and $v_{12}$
+                        \begin{equation*}
+                            v(x, y) = a_1 + a_2 x + a_3 y + a_4 xy
+                        \end{equation*}
+                    \end{itemize}
+                    \item Flux $\bm{r} = (r_1, r_2)$ at $Q$
+                    \begin{itemize}
+                        \item For $r_x$: inter. between $r_5$ and $r_6$
+                        \item For $r_y$: inter. between $r_{20}$ and $r_{21}$ 
+                    \end{itemize}
+                    
+                \end{itemize}
+            
+            \column{0.4\textwidth}
+                \begin{figure}
+                    \includegraphics[scale=0.3]{interpolation.png}
+                \end{figure}
+        \end{columns}
     \end{frame}
 \end{document}
