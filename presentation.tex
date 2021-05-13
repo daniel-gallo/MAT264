@@ -238,4 +238,30 @@
             \item For \textbf{arbitrary} $k$ we have to use the eigs function TODO
         \end{itemize}
     \end{frame}
+
+    \begin{frame}{Errors}
+        \begin{itemize}
+            \item Error
+            \begin{equation*}
+                \norm{u - v} \leq C_{\Omega, k} M(v, \bm{r}, f)
+            \end{equation*}
+            \item Energy error
+            \begin{equation*}
+                \norm{\sqrt{k} \nabla e} \leq M(v, \bm{r}, f) ,\quad \quad I = \frac{M(v, \bm{r}, f)}{\norm{\sqrt{k} \nabla e}}
+            \end{equation*}
+            \item Star error
+            \begin{equation*}
+                M(v, \bm{r}, f) \leq \norm{(e_v, e_{\bm{r}})}_\star \leq 3 M(v, \bm{r}, f)
+            \end{equation*}
+            \begin{equation*}
+                \norm{(e_v, e_{\bm{r}})}_\star = \norm{\sqrt{k} \nabla e} + \norm{\frac{\bm{q} - \bm{r}}{\sqrt{k}}} + C_{\Omega, k} \norm{\nabla \cdot (\bm{q} - \bm{r})}
+            \end{equation*}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Error comparison}
+        \begin{figure}
+            \includegraphics[scale=0.18]{errors}
+        \end{figure}
+    \end{frame}
 \end{document}
