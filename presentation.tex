@@ -8,9 +8,12 @@
 
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{mathtools}
 \usepackage{bm}
+\usepackage{cancel}
 \def\R{\mathbb{R}}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\DeclarePairedDelimiter\set\{\}
 
 
 \begin{document}
@@ -81,15 +84,13 @@
 
     \begin{frame}{The numerical method: discretization}
         \begin{columns}
-            \column{0.4\textwidth}
+            \column{0.45\textwidth}
             \begin{itemize}
-                \item Temperature at nodes $f(x, y)$
-                \begin{itemize}
-                    \item Temperature at node 1
-                    \begin{equation*}
-                        f_1 = f(0, 0)
-                    \end{equation*}
-                \end{itemize}
+                \item f at nodes
+                \begin{align*}
+                    f_1 = f(0, 0) \\
+                    f_5 = f(1, 0) \\
+                \end{align*}
                 \item Flux based on finite difference
                 \begin{itemize}
                     \item Recall that
@@ -102,7 +103,7 @@
                     \end{equation*}
                 \end{itemize} 
             \end{itemize}
-            \column{0.6\textwidth}
+            \column{0.55\textwidth}
             \begin{figure}
                 \includegraphics[scale=0.24]{grid.png}
             \end{figure}
@@ -160,8 +161,14 @@
                     \end{itemize}
                     \item Flux $\bm{r} = (r_1, r_2)$ at $Q$
                     \begin{itemize}
-                        \item For $r_x$: inter. between $r_5$ and $r_6$
-                        \item For $r_y$: inter. between $r_{20}$ and $r_{21}$ 
+                        \item For $r_1$: inter. between $r_5$ and $r_6$
+                        \item For $r_2$: inter. between $r_{20}$ and $r_{21}$ 
+                        \begin{equation*}
+                            \bm{r}(x, y) = \begin{bmatrix}
+                                b_1 + b_2 x \\
+                                b_3 + b_4 y
+                            \end{bmatrix}
+                        \end{equation*}
                     \end{itemize}
                     
                 \end{itemize}
@@ -171,5 +178,64 @@
                     \includegraphics[scale=0.3]{interpolation.png}
                 \end{figure}
         \end{columns}
+    \end{frame}
+
+    \begin{frame}{What about the boundary?}
+    \begin{columns}
+        \column{0.65\textwidth}
+        \begin{itemize}
+            \item \textbf{Edge} cells: Green's Theorem
+            \begin{equation*}
+                \frac{1}{\Delta x \Delta y} \left(r_5 \Delta y + \cancelto{0}{r_{18} \frac{\Delta x}{2}} - r_l \Delta y - \cancelto{0}{r_{17} \frac{\Delta x}{2}}\right) = f_6
+            \end{equation*}
+            \item \textbf{Corner} cells: 
+            \begin{itemize}
+                \item Same trick if signs match
+                \item Force $\nabla \cdot \bm{r} = f$ if $f$ is constant
+                \item Force $\bm{r}$ to be zero where it is zero
+            \end{itemize}
+        \end{itemize}
+        \column{0.35\textwidth}
+        \begin{figure}
+            \includegraphics[scale=0.3]{edge.png}
+        \end{figure}
+    \end{columns}
+        
+    \end{frame}
+
+    \begin{frame}{Error bounds}
+        \begin{itemize}
+            \item We want to measure how far our solution $v$ is from the real solution $u$
+            \begin{equation*}
+                \norm{e} = \norm{u - v}
+            \end{equation*}
+            \item The \textbf{energy norm} $\norm{\sqrt{k}\nabla e}$ is easier to bound
+            \begin{equation*}
+                \norm{\sqrt{k}\nabla e} \leq \norm{\frac{1}{\sqrt{k}} (\bm{r} + k\nabla v)} + C_{\Omega, k} \norm{f - \nabla \cdot \bm{r}} \equiv M(v, \bm{r}, f)
+            \end{equation*}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Poincarè-Friedrichs constant}
+        \begin{itemize}
+            \item The \textbf{Poincarè-Friedrichs constant} is defined as follows
+            \begin{equation*}
+                C_{\Omega, k} = \sup\set*{\frac{\norm{e}}{\norm{\sqrt{k}\nabla e}}}
+            \end{equation*}
+            \item Thus, we can obtain a bound for the actual error!
+            \begin{equation*}
+                \norm{u - v} \leq C_{\Omega, k} \norm{\sqrt{k}\nabla e} \leq C_{\Omega, k}M(v, \bm{r}, f)
+            \end{equation*}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Poincarè-Friedrichs constant}
+        \begin{itemize}
+            \item For \textbf{homogenius} $k$,
+            \begin{equation*}
+                C_{[0, 1]^2, k} = \frac{1}{\sqrt{2 k} \pi}    
+            \end{equation*}
+            \item For \textbf{arbitrary} $k$ we have to use the eigs function TODO
+        \end{itemize}
     \end{frame}
 \end{document}
