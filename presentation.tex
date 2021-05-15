@@ -11,6 +11,7 @@
 \usepackage{mathtools}
 \usepackage{bm}
 \usepackage{cancel}
+\usepackage{subfig}
 \def\R{\mathbb{R}}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \DeclarePairedDelimiter\set\{\}
@@ -42,16 +43,17 @@
             \end{equation*}
             \item For the \textbf{inhomogenius} case (there is a heat source), we use \textbf{Poisson's equation}
             \begin{equation*}
-                \-k \Delta u = f \implies
                 \begin{cases}
                     \nabla \cdot \bm{q} = f \\
                     \bm{q} = -k \nabla u
                 \end{cases}
+                \implies
+                \-k \Delta u = f
             \end{equation*}
             \begin{itemize}
-                \item $f$ is the \textbf{heat-flux density} of the source
+                \item $f$ is the \textbf{heat flux density} of the source
                 \item $k$ is the \textbf{thermal conductivity}
-                \item $\bm{q}$ is the \textbf{flux} TODO
+                \item $\bm{q}$ is the \textbf{heat flow}
             \end{itemize}
         \end{itemize}
     \end{frame}
@@ -74,7 +76,7 @@
             \item The approximation of $u$ will be called $v$
             \item The approximation of $\bm{q}$ will be called $\bm{r}$
         \end{itemize}
-        Two main steps
+        Three steps
         \begin{enumerate}
             \item Discretization
             \item Solve a linear system of equations
@@ -235,7 +237,10 @@
             \begin{equation*}
                 C_{[0, 1]^2, k} = \frac{1}{\sqrt{2 k} \pi}    
             \end{equation*}
-            \item For \textbf{arbitrary} $k$ we have to use the eigs function TODO
+            \item For \textbf{arbitrary} $k$ we have to find the smallest eigenvalue of
+            \begin{equation*}
+                D \cdot (-K \odot G) 
+            \end{equation*}
         \end{itemize}
     \end{frame}
 
@@ -279,5 +284,46 @@
         \begin{figure}
             \includegraphics[scale=0.18]{errors}
         \end{figure}
+    \end{frame}
+
+    \begin{frame}{Problem with unknown solution}
+        \begin{equation*}
+            f(x, y) = 10 e^{-20(x - 0.25)^2 -20(y - 0.25)^2} - 10 e^{-20(x - 0.75)^2 -20(y - 0.75)^2}
+        \end{equation*}
+        \begin{equation*}
+            k(x, y) = 0.6 - 0.599e^{-40(x + y - 1)^2}
+        \end{equation*}
+        
+        \begin{figure}
+            \centering
+            \subfloat[\centering $f(x, y)$]{{\includegraphics[width=5cm]{f.png}}}
+            \centering
+            \subfloat[\centering $k(x, y)$]{{\includegraphics[width=5cm]{k.png}}}
+        \end{figure}
+    \end{frame}
+
+    \begin{frame}{Numerical solution}
+        \begin{figure}
+            \includegraphics[width=10cm]{solution.png}
+        \end{figure}
+    \end{frame}
+
+    \begin{frame}{Majorant}
+        \begin{columns}
+            \column{0.3\textwidth}
+            \begin{table}[]
+                \begin{tabular}{l|l}
+                \textbf{n} & $M(v, \bm{r}, f)$ \\ \hline
+                16         & 0.6454            \\
+                32         & 0.2567            \\
+                64         & 0.1169            \\
+                128        & 0.0554           
+                \end{tabular}
+                \end{table}
+            \column{0.7\textwidth}
+            \begin{figure}
+                \includegraphics[scale=0.2]{majorant.png}
+            \end{figure}
+        \end{columns}
     \end{frame}
 \end{document}
