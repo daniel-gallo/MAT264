@@ -15,6 +15,7 @@
 \def\R{\mathbb{R}}
 \newcommand{\norm}[1]{\left\lVert#1\right\rVert}
 \DeclarePairedDelimiter\set\{\}
+\captionsetup[subfigure]{labelformat=empty}
 
 \graphicspath{{plots/}}
 
@@ -52,6 +53,7 @@
                 \-k \Delta u = f
             \end{equation*}
             \begin{itemize}
+                \item $u$ is the \textbf{temperature}
                 \item $f$ is the \textbf{heat flux density} of the source
                 \item $k$ is the \textbf{thermal conductivity}
                 \item $\bm{q}$ is the \textbf{heat flow}
@@ -315,22 +317,41 @@
         \end{figure}
     \end{frame}
 
-    \begin{frame}{Majorant}
+    \begin{frame}{Error bounds of the problem}
+        \begin{itemize}
+            \item We can no longer calculate $I$, $I_\star$ or $\norm{(e_v, e_{\bm{r}})}_\star$
+            \item We can consider the relative error, which we can still bound
+            \begin{equation*}
+                \frac{\norm{\sqrt{k}\nabla e}}{\norm{\sqrt{k}\nabla v}} \leq \frac{M(v, \bm{r}, f)}{\norm{\sqrt{k}\nabla v}}
+            \end{equation*}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Error bounds of the problem}
         \begin{columns}
-            \column{0.3\textwidth}
+            \column{0.4\textwidth}
             \begin{table}[]
-                \begin{tabular}{l|l}
-                \textbf{n} & $M(v, \bm{r}, f)$ \\ \hline
-                16         & 0.6454            \\
-                32         & 0.2567            \\
-                64         & 0.1169            \\
-                128        & 0.0554           
+                \begin{tabular}{l|ll}
+                \textbf{n} & $M(v, \bm{r}, f)$ & R.E. bound \\ \hline
+                16         & 0.6454  &  0.1530 \\
+                32         & 0.2567  &  0.0444 \\
+                64         & 0.1169  &  0.0179 \\
+                128        & 0.0554  &  0.0084       
                 \end{tabular}
                 \end{table}
-            \column{0.7\textwidth}
+            \column{0.5\textwidth}
             \begin{figure}
-                \includegraphics[scale=0.2]{majorant.png}
+                \includegraphics[scale=0.16]{majorant.png}
             \end{figure}
         \end{columns}
+    \end{frame}
+
+    \begin{frame}{How to smartly refine the grid}
+        \begin{figure}
+            \centering
+            \subfloat[\centering $\norm{\frac{1}{\sqrt{k}} (\bm{r} + k\nabla v)}^2$]{{\includegraphics[width=6cm]{e1.png}}}
+            \centering
+            \subfloat[\centering $\norm{f - \nabla \cdot \bm{r}}^2$]{{\includegraphics[width=6cm]{e2.png}}}
+        \end{figure}
     \end{frame}
 \end{document}
